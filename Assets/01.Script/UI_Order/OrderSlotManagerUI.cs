@@ -26,6 +26,9 @@ public class OrderSlotManagerUI : MonoBehaviour
     private Vector3 originalOrderSize;  //주문서의 원래 크기
     public float enlargedScale = 0.5f;  //크게 할 때의 스케일 값
 
+    private List<Order> currentOrders = new List<Order>();//////////
+   
+
     private void Start()
     {
         // 초기 설정 시 주문서의 원래 크기 저장
@@ -63,7 +66,9 @@ public class OrderSlotManagerUI : MonoBehaviour
     {
 
         //주문서 생성
-        OrdersTable.instance.orders = orderPaper.RandomOrder(3); //아이템 3개 배정
+        //OrdersTable.instance.orders = orderPaper.RandomOrder(3); //아이템 3개 배정
+        currentOrders = orderPaper.RandomOrder(3);
+        OrdersTable.instance.orders = new List<Order>(currentOrders);
         Debug.Log("생산직후 리스트 카운트 :" + OrdersTable.instance.orders.Count);
 
         //기존 주문 아이템 UI 삭제
@@ -92,6 +97,7 @@ public class OrderSlotManagerUI : MonoBehaviour
     public void MultipleOrder(int count)
     {
 
+
         Debug.Log(gameObject.name + "멀티플" + OrdersTable.instance.orders.Count);
         //최대 3개까지만 생성
         if (currentOrderCount >= 3)
@@ -111,6 +117,7 @@ public class OrderSlotManagerUI : MonoBehaviour
             OrderSlotManagerUI orderSlotManager = orderSheet.GetComponent<OrderSlotManagerUI>();
             if (orderSlotManager != null)
             {
+                orderSlotManager.TriggerRandomOrder();
 
                 //Debug.Log("멀티플3" + OrdersTable.orders.Count);
                 if (orderSlotManager.orderPaper == null || orderSlotManager.orderItemPrefab == null)
@@ -197,18 +204,26 @@ public class OrderSlotManagerUI : MonoBehaviour
         if (selectedOrderPaper != null)
         {
 
+            OrderSlotManagerUI orderUI = selectedOrderPaper.GetComponent<OrderSlotManagerUI>();
+
             // 주문서에서 필요한 아이템 목록과 수량을 가져옵니다.
             Order orderDetails = selectedOrderPaper.GetComponent<Order>();
 
-            if (OrdersTable.instance.orders == null)
+            if (orderUI == null)
             {
                 Debug.LogError("Order component not found on selectedOrderPaper!");
                 return;
             }
             Debug.Log(OrdersTable.instance.orders.Count);
 
+            if (orderUI.currentOrders == null || orderUI.currentOrders.Count == 0)
+            {
+                Debug.LogError("No orders associated with selectedOrderPaper!");
+                return;
+            }
+
             // 주문서 내의 아이템들의 타입을 디버그로 출력합니다.
-            foreach (var order in OrdersTable.instance.orders)
+            foreach (var order in orderUI.currentOrders)
             {
                 IItem item = GetItemFromID(order.ItemId);
                 if (item != null)
@@ -221,7 +236,8 @@ public class OrderSlotManagerUI : MonoBehaviour
             // Debug.Log("Checking itemId: " + test[1].ItemId);
 
             // 창고에서 해당 아이템의 수량을 확인합니다.
-            IItem requiredItem = GetItemFromID(OrdersTable.instance.orders[1].ItemId);  // 이 함수는 아이템 ID를 받아 IItem을 반환해야합니다.
+            //IItem requiredItem = GetItemFromID(OrdersTable.instance.orders[1].ItemId);  // 이 함수는 아이템 ID를 받아 IItem을 반환해야합니다.
+            IItem requiredItem = GetItemFromID(orderUI.currentOrders[1].ItemId);
             if (requiredItem == null)
             {
                 Debug.Log("Checking itemId: " + OrdersTable.instance.orders[1].ItemId);

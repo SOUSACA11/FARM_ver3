@@ -24,15 +24,5 @@ public class ButtonBlink : MonoBehaviour
         }
     }
 
-    //public void StartBlinking()
-    //{
-    //    isBlinking = true;
-    //}
-
-    //public void StopBlinking()
-    //{
-    //    isBlinking = false;
-    //    btnImage.color = originalColor;  //원래 색상으로 되돌림
-    //}
 
 }

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 //by.J:230817 건물 드래그 시 스냅 활성화
 //by.J:230825 아이소메트릭 셀 사이즈에 맞춘 스냅으로 변경
 //타입 변경시 이벤트 추가
+//by.J:230904 건물 복제시 각 스크립트 1개 이상일 경우 제거
 public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private Camera mainCamera;                  //메인 카메라
@@ -175,6 +176,25 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             BoxColliderSize(clone);
             //Debug.Log("슬롯에서 드래그 시작: " + gameObject.name + " 빌딩 가격: " + currentBuildingData.buildingCost);
             //Debug.Log("드래그중인 건물 현재 가격: " + JsonUtility.ToJson(currentBuildingData));
+
+            var farmGrowthComponents = clone.GetComponents<FarmGrowth>();
+            if (farmGrowthComponents.Length > 1)
+            {
+                for (int i = 1; i < farmGrowthComponents.Length; i++)
+                {
+                    Destroy(farmGrowthComponents[i]);
+                }
+            }
+
+            var WorkBuildingComponents = clone.GetComponents<WorkBuilding>();
+            if (WorkBuildingComponents.Length > 1)
+            {
+                for (int i = 1; i < WorkBuildingComponents.Length; i++)
+                {
+                    Destroy(WorkBuildingComponents[i]);
+                }
+            }
+
         }
     }
 

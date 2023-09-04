@@ -9,7 +9,7 @@ public class SceneUIManager : MonoBehaviour
     public void ClickStart()
     {
         Debug.Log("게임 시작");
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Tutorial");
     }
 
     public void ClickExit()

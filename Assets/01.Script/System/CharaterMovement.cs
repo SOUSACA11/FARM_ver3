@@ -3,6 +3,7 @@ using System.Collections;
 
 //by.J:230726 캐릭터 움직임
 //by.J:230901 콜라이더 감지시 피하기
+//by.J:230904 정면 후면 다른 애니메이터 움직임 적용
 public class CharaterMovement : MonoBehaviour
 {
     public float speed = 0.5f;     //이동 속도
@@ -14,12 +15,13 @@ public class CharaterMovement : MonoBehaviour
 
     private Vector3 targetPosition; //현재 이동할 목표 위치
 
-    //
     public float avoidDistance = 1.0f;  // 콜라이더를 감지할 거리
     public LayerMask obstacleMask;      // 감지할 장애물 레이어
-    //
-
+ 
     private Animator animator; //Animator 컴포넌트
+
+    public GameObject frontAnimatorObject;
+    public GameObject backAnimatorObject;
 
     private void Start()
     {
@@ -68,6 +70,20 @@ public class CharaterMovement : MonoBehaviour
         //Debug.Log("Y: " + isoY);
 
         targetPosition = new Vector3(x, y, transform.position.z);
+
+
+        ////////
+        Vector2 movementDirection = (targetPosition - transform.position).normalized;
+        if (movementDirection.y >= 0) // y 값이 0보다 크거나 같으면 앞으로, 아니면 뒤로 움직이는 것으로 간주
+        {
+            frontAnimatorObject.SetActive(true);
+            backAnimatorObject.SetActive(false);
+        }
+        else
+        {
+            frontAnimatorObject.SetActive(false);
+            backAnimatorObject.SetActive(true);
+        }
     }
 
     private IEnumerator WaitAndSetNewDestination()

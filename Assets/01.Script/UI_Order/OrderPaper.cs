@@ -29,38 +29,37 @@ public class OrderPaper : MonoBehaviour
             //Debug.Log("가공품 추가 완");
         }
 
+
         for (int i = 0; i < numberOfItems; i++)
         {
             int randomIndex = Random.Range(0, allItems.Count);
             IItem randomItem = allItems[randomIndex];
             int randomQuantity = Random.Range(1, 6);
 
-            orders.Add(new Order
+            Order newOrder = new Order
             {
                 ItemId = randomItem.ItemId,
                 ItemImage = randomItem.ItemImage,
                 Quantity = randomQuantity,
                 TotalCost = randomItem.ItemCost * randomQuantity
-            });
+            };
 
-            // Debug.Log("새로운 주문");
+            orders.Add(newOrder);
+
             Debug.Log("생성된 아이템의 ItemId: " + randomItem.ItemId);
-
 
             foreach (var order in orders)
             {
                 Debug.Log($"Order created with ItemId: {order.ItemId}");
-
             }
         }
 
-        //Debug.Log("주문 관리 되나?");
-        return orders;
-    }
+           return orders;
+        }
 
 
-    //주문서 총 비용
-    public int TotalCost(List<Order> orders)
+        //주문서 총 비용
+        public int TotalCost(List<Order> orders)
     {
         int totalCost = 0; //총 비용 초기화
 

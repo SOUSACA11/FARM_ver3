@@ -44,6 +44,7 @@ public class WorkBuilding : MonoBehaviour
     private Transform currentClickedFinishImage;
     public List<Image> productImageDisplays = new List<Image>();
 
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -410,6 +411,7 @@ public void ProductImageClicked(int index)
     {
         Debug.Log("생산 완료");
 
+
         // 완성품을 창고에 추가
         Storage.Instance.AddItem(product, 1);
 
@@ -425,7 +427,7 @@ public void ProductImageClicked(int index)
             StopCoroutine(productionCoroutine); // 애니메이션 중지
 
     }
-
+ 
     //반짝반짝 효과
     IEnumerator BlinkEffect()
     {
