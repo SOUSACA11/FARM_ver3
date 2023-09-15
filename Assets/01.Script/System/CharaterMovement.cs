@@ -17,10 +17,13 @@ public class CharaterMovement : MonoBehaviour
 
     private Vector3 currentMoveDir = Vector3.zero;
 
+    public Vector2 minBounds;  // 움직임의 최소 경계값
+    public Vector2 maxBounds;  // 움직임의 최대 경계값
+
     public GameObject frontRightObject; // 첫 번째 오브젝트
     public GameObject backLeftObject; // 두 번째 오브젝트
 
-    private float animationDelay = 5f;  // 애니메이션 대기 시간 설정 (0.5초)
+    private float animationDelay = 8f;  // 애니메이션 대기 시간 설정 (8초)
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -33,7 +36,7 @@ public class CharaterMovement : MonoBehaviour
         backLeftObject.gameObject.SetActive(false);
     }
 
- 
+
     private void Update()
     {
         GameObject activeObject = frontRightObject.activeSelf ? frontRightObject : backLeftObject;
@@ -41,7 +44,16 @@ public class CharaterMovement : MonoBehaviour
         if (isMoving)
         {
             moveDuration -= Time.deltaTime;
-            activeObject.transform.position += currentMoveDir * moveSpeed * Time.deltaTime;  // 변경된 부분
+
+            // 예상 위치를 계산합니다.
+            Vector3 expectedPosition = activeObject.transform.position + currentMoveDir * moveSpeed * Time.deltaTime;
+
+            // 예상 위치가 경계 내에 있는지 확인합니다.
+            if (expectedPosition.x >= minBounds.x && expectedPosition.x <= maxBounds.x &&
+                expectedPosition.y >= minBounds.y && expectedPosition.y <= maxBounds.y)
+            {
+                activeObject.transform.position = expectedPosition;
+            }
 
             if (moveDuration <= 0)
             {
@@ -71,7 +83,7 @@ public class CharaterMovement : MonoBehaviour
         switch (randomChoice)
         {
             case 0: // 앞 (Front)
-                ActivateObject(frontRightObject, backLeftObject); 
+                ActivateObject(frontRightObject, backLeftObject);
                 moveDir = new Vector3(-1, -1, 0).normalized;
                 frontRightObject.GetComponent<Animator>().SetTrigger("isFront");
                 break;
