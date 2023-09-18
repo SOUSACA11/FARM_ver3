@@ -27,13 +27,16 @@ public class CharaterMovement : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        PickRandomDirection();
+       
         Vector3 worldPosition = gameObject.transform.position;
         Debug.Log("월드좌표" + worldPosition);
 
         //처음 시작할 때 두 오브젝트 중 하나만 활성화
         frontRightObject.gameObject.SetActive(true);
         backLeftObject.gameObject.SetActive(false);
+
+        // 10초 뒤에 움직임 시작
+        StartCoroutine(StartMovementAfterDelay(10.0f));
     }
 
 
@@ -71,6 +74,15 @@ public class CharaterMovement : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator StartMovementAfterDelay(float delay)
+    {
+        // 지정된 시간만큼 대기
+        yield return new WaitForSeconds(delay);
+
+        // 움직임 시작
+        PickRandomDirection();
     }
 
     void PickRandomDirection()
@@ -132,15 +144,6 @@ public class CharaterMovement : MonoBehaviour
             toActivate.SetActive(true);
         }
 
-    }
-
-    IEnumerator StartMovementAfterDelay(float delay)
-    {
-        // 지정된 시간만큼 대기
-        yield return new WaitForSeconds(delay);
-
-        // 움직임 시작
-        isMoving = true;
     }
 
 }

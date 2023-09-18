@@ -99,16 +99,16 @@ namespace JinnyBuilding
             Sprite[] combinedSprites = Resources.LoadAll<Sprite>("Buid_1").Concat(Resources.LoadAll<Sprite>("222")).ToArray();
             Sprite bakery = System.Array.Find(combinedSprites, sprite => sprite.name.Equals("Buid_1_1"));
             Sprite GrillShop = System.Array.Find(combinedSprites, sprite => sprite.name.Equals("Buid_1_3"));
-            Sprite Windmill = System.Array.Find(combinedSprites, sprite => sprite.name.Equals("tEST_Buid_0"));
-            Sprite Dairy = System.Array.Find(combinedSprites, sprite => sprite.name.Equals("tEST_Buid_2"));
-            Sprite JuiceShop = System.Array.Find(combinedSprites, sprite => sprite.name.Equals("tEST_Buid_1"));
+            Sprite Windmill = Resources.Load<Sprite>("Wi");
+            Sprite Dairy = Resources.Load<Sprite>("Mi");
+            Sprite JuiceShop = Resources.Load<Sprite>("Ju");
 
 
             //Sprite[] sprites = Resources.LoadAll<Sprite>("Buid_1");
-            
+
             //Sprite bakery = System.Array.Find(sprites, sprite => sprite.name.Equals("Buid_1_1"));
             //Sprite GrillShop = System.Array.Find(sprites, sprite => sprite.name.Equals("Buid_1_3"));
-            
+
 
             // »§Áý
             buildingDataList.Add(new BuildingDataInfo()

@@ -8,9 +8,9 @@ public class MoneySystem : MonoBehaviour
 {
     private static MoneySystem instance;
 
-    private int gold; //재화 변수
-   
-    public int Gold { get { return gold; } } //접근자 프로퍼티
+    public int Gold { get; private set; } = 0;
+
+    public bool IsInitialized { get; private set; } = false;
 
     public delegate void MoneyChange(); //delegate -> 함수를 변수처럼 취급하여 사용 / 메서드 참조 / 메개변수 같아야 가능
     public event MoneyChange OnMoneychange;
@@ -63,8 +63,14 @@ public class MoneySystem : MonoBehaviour
     //재화 증가 기능
     public void AddGold(int amount)
     {
-        gold += amount;
-        Debug.Log("현재 재화 플 증가됨?" + gold);
+        if (!IsInitialized)
+        {
+            Gold = 500; //초기재화
+            IsInitialized = true;
+        }
+
+        Gold += amount;
+        Debug.Log("현재 재화 플 증가됨?" + Gold);
         OnMoneychange?.Invoke(); //? -> null 아니라면(이벤트 핸들러 1개 이상 연결된 경우) Invoke 호출
 
         CheckForEnding();
@@ -77,13 +83,13 @@ public class MoneySystem : MonoBehaviour
         //gold = Mathf.Max(gold - amount, 0); //Mathf.Max(float a, float b)->a와 b 중에 더 큰 값을 반환
         //OnMoneychange?.Invoke();            //? -> null 아니라면(이벤트 핸들러 1개 이상 연결된 경우) Invoke 호출
         // 금액이 부족하면 false 반환
-        if (gold < amount)
+        if (Gold < amount)
         {
             Debug.LogWarning("금액이 부족합니다.");
             return false;
         }
 
-        gold -= amount;
+        Gold -= amount;
         OnMoneychange?.Invoke(); // ? -> null 아니라면 (이벤트 핸들러 1개 이상 연결된 경우) Invoke 호출
         return true; // 금액 차감에 성공하면 true 반환
     
@@ -92,7 +98,7 @@ public class MoneySystem : MonoBehaviour
     //엔딩 조건
     private void CheckForEnding()
     {
-        if (gold >= 100) //금화100
+        if (Gold >= 600) //금화100
         {
             SceneManager.LoadScene("Epilogue");
         }
