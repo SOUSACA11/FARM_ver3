@@ -52,25 +52,7 @@ public class StorageSlotUI : MonoBehaviour
     }
 
     public void UpdateUI()
-    {
-        //    //기존 슬롯 삭제
-        //    foreach (Transform child in transform)
-        //    {
-        //        Destroy(child.gameObject);
-        //    }
-
-        //    // storage의 아이템 로그로 출력
-        //    foreach (var item in storage.Items)
-        //    {
-        //        Debug.Log($"Item: {item.Key.ItemName}, Count: {item.Value}");  //ItemName이 IItem에 있는 속성이라고 가정
-        //    }
-
-        //    //새 슬롯 추가
-        //    foreach (var item in storage.Items)
-        //    {
-        //        AddItemSlot(item.Key, item.Value);
-        //    }
-        //}//기존 슬롯 삭제
+    { 
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);

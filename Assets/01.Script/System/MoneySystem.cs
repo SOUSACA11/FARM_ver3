@@ -65,7 +65,7 @@ public class MoneySystem : MonoBehaviour
     {
         if (!IsInitialized)
         {
-            Gold = 500; //초기재화
+            Gold = 30; //초기재화
             IsInitialized = true;
         }
 
@@ -98,7 +98,7 @@ public class MoneySystem : MonoBehaviour
     //엔딩 조건
     private void CheckForEnding()
     {
-        if (Gold >= 600) //금화100
+        if (Gold >= 100) //금화100
         {
             SceneManager.LoadScene("Epilogue");
         }

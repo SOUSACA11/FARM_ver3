@@ -131,7 +131,6 @@ public class CharaterMovement : MonoBehaviour
 
     void ActivateObject(GameObject toActivate, GameObject toDeactivate)
     {
-        Debug.Log("ÈåÄíÄí¤Ì");
 
         if (toDeactivate.activeSelf)
         {

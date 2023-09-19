@@ -25,13 +25,13 @@ public class TouchManager : MonoBehaviour
 
                 RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
 
-                //레이캐스터 충돌 오브젝트
-                if (hit.collider != null)
-                {
-                    // 여기에 오브젝트를 클릭한 경우의 동작을 작성합니다.
-                    // hit.collider.gameObject 는 터치한 오브젝트를 나타냅니다.
-                    // 예를 들어, hit.collider.gameObject.GetComponent<Building>() 를 사용하여 건물 정보를 가져올 수 있습니다.
-                }
+                ////레이캐스터 충돌 오브젝트
+                //if (hit.collider != null)
+                //{
+                //    // 여기에 오브젝트를 클릭한 경우의 동작을 작성합니다.
+                //    // hit.collider.gameObject 는 터치한 오브젝트를 나타냅니다.
+                //    // 예를 들어, hit.collider.gameObject.GetComponent<Building>() 를 사용하여 건물 정보를 가져올 수 있습니다.
+                //}
             }
         }
     }

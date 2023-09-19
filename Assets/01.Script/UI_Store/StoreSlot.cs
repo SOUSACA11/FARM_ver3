@@ -254,38 +254,7 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
 
-        //if (clone != null)
-        //{
-        //    WorkBuilding workBuilding = clone.GetComponent<WorkBuilding>();
-
-        //    if (clone != null)
-        //    {
-        //        Vector3 mousePosition = GetWorldPosition(eventData);
-        //        clone.transform.position = IsoGridSnap(mousePosition);
-        //    }
-        //    if (currentBuildingType != BuildingType.None)
-        //    {
-        //        MoneySystem.Instance.DeductGold(currentBuildingData.buildingCost);
-        //    }
-        //    else if (currentFarmType != FarmType.None)
-        //    {
-        //        MoneySystem.Instance.DeductGold(currentFarmData.farmCost);
-        //    }
-        //    else if (currentAnimalType != AnimalType.None)
-        //    {
-        //        MoneySystem.Instance.DeductGold(currentAnimalData.animalCost);
-        //    }
-
-        //    //드래그가 끝나면 복제본 게임 오브젝트로 존재
-        //    clone = null;
-
-        //    //Debug.Log(buildingComponent.buildingType);
-
-        //    //Debug.Log("현재 빌딩 가격" + currentBuildingData.buildingCost);
-        //    MoneySystem.Instance.DeductGold(currentBuildingData.buildingCost);
-        //}
-
-        ////Debug.Log(buildingComponent.buildingType);
+      
 
     }
 

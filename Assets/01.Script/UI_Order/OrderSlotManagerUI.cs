@@ -194,27 +194,15 @@ public class OrderSlotManagerUI : MonoBehaviour
     public void PayButtonClick()
     {
         Debug.Log("납부하기 버튼 클릭");
-        //Debug.Log("selectedOrderPaper 값: " + selectedOrderPaper);
-
-        //Debug.Log("selectedOrderPaper는 null이 아닙니다.");
-
-        //Debug.Log(test.Count);
-        //Debug.Log("납부" + OrdersTable.orders.Count);
 
         if (selectedOrderPaper != null)
         {
-
             OrderSlotManagerUI orderUI = selectedOrderPaper.GetComponent<OrderSlotManagerUI>();
-
-            // 주문서에서 필요한 아이템 목록과 수량을 가져옵니다.
-            Order orderDetails = selectedOrderPaper.GetComponent<Order>();
-
             if (orderUI == null)
             {
                 Debug.LogError("Order component not found on selectedOrderPaper!");
                 return;
             }
-            Debug.Log(OrdersTable.instance.orders.Count);
 
             if (orderUI.currentOrders == null || orderUI.currentOrders.Count == 0)
             {
@@ -222,38 +210,26 @@ public class OrderSlotManagerUI : MonoBehaviour
                 return;
             }
 
-            // 주문서 내의 아이템들의 타입을 디버그로 출력합니다.
+            // 모든 주문 아이템을 순회하며 창고의 아이템을 확인하고 차감합니다.
             foreach (var order in orderUI.currentOrders)
             {
-                IItem item = GetItemFromID(order.ItemId);
-                if (item != null)
+                IItem requiredItem = GetItemFromID(order.ItemId);
+                if (requiredItem == null)
                 {
-                    Debug.Log($"Item Name: {item.ItemName}, Item Type: {item.GetType().Name}");
+                    Debug.LogError($"No item found with the given ID: {order.ItemId}!");
+                    return;
                 }
+
+                int storageAmount = Storage.Instance.GetItemAmount(requiredItem);
+                if (storageAmount < order.Quantity)
+                {
+                    Debug.LogWarning("창고에 필요한 아이템이 부족합니다.");
+                    return;  // 창고에 필요한 아이템이 충분하지 않으면 작업 중지
+                }
+
+                // 필요한 아이템과 수량을 창고에서 제거
+                Storage.Instance.RemoveItem(requiredItem, order.Quantity);
             }
-
-            //Debug.Log(test.Count);
-            // Debug.Log("Checking itemId: " + test[1].ItemId);
-
-            // 창고에서 해당 아이템의 수량을 확인합니다.
-            //IItem requiredItem = GetItemFromID(OrdersTable.instance.orders[1].ItemId);  // 이 함수는 아이템 ID를 받아 IItem을 반환해야합니다.
-            IItem requiredItem = GetItemFromID(orderUI.currentOrders[1].ItemId);
-            if (requiredItem == null)
-            {
-                Debug.Log("Checking itemId: " + OrdersTable.instance.orders[1].ItemId);
-                Debug.LogError("No item found with the given ID!");
-                return;
-            }
-
-            int storageAmount = Storage.Instance.GetItemAmount(requiredItem);
-            if (storageAmount < OrdersTable.instance.orders[1].Quantity)
-            {
-                Debug.LogWarning("창고에 필요한 아이템이 부족합니다.");
-                return;
-            }
-
-            // 창고에서 필요한 아이템과 수량을 제거합니다.
-            Storage.Instance.RemoveItem(requiredItem, OrdersTable.instance.orders[1].Quantity);
 
             TextMeshProUGUI totalCostText = selectedOrderPaper.transform.Find("gold count").GetComponent<TextMeshProUGUI>();
             if (totalCostText == null)
@@ -262,10 +238,10 @@ public class OrderSlotManagerUI : MonoBehaviour
                 return;
             }
 
-            int cost = int.Parse(totalCostText.text); //텍스트에서 비용 추출
-            MoneySystem.Instance.AddGold(cost);       //재화 증가
-            Destroy(selectedOrderPaper);              //납부한 주문서 삭제
-            selectedOrderPaper = null;                //선택 초기화
+            int cost = int.Parse(totalCostText.text);
+            MoneySystem.Instance.AddGold(cost);
+            Destroy(selectedOrderPaper);
+            selectedOrderPaper = null;
         }
     }
 
