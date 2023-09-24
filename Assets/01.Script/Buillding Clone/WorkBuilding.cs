@@ -56,13 +56,11 @@ public class WorkBuilding : MonoBehaviour
 
     void Start()
     {
-        ////////////////////////////
         SetRecipesForBuilding();
         for (int i = 0; i < productImageDisplays.Count; i++)
         {
             AddEventTriggerToImage(productImageDisplays[i], i);
         }
-        //////////////////////
     }
 
     private void Update()
@@ -76,7 +74,6 @@ public class WorkBuilding : MonoBehaviour
         this.buildingType = type;
         this.farmType = FarmType.None;
         this.animalType = AnimalType.None;
-
     }
 
     //농장 타입 자동 설정
@@ -95,7 +92,7 @@ public class WorkBuilding : MonoBehaviour
         this.buildingType = BuildingType.None;
     }
 
-    // 이 메서드는 needIngredient 리스트에 아이템을 추가합니다.
+    //needIngredient 리스트에 아이템 추가
     private void AddToNeedIngredient(IItem item)
     {
         if (item != null)
@@ -105,18 +102,16 @@ public class WorkBuilding : MonoBehaviour
         }
     }
 
-    // 이 메서드는 needIngredient 리스트를 초기화합니다.
+    //needIngredient 리스트 초기화
     private void ClearNeedIngredient()
     {
         needIngredient.Clear();
         Debug.Log($"Cleared needIngredient list.");
     }
 
-
     //빌딩 타입별 레시피 설정
     private void SetRecipesForBuilding()
     {
-        
 
         Debug.Log("타입별 레시피 설정" + $"Setting recipes for building type: {buildingType}");
 
@@ -130,14 +125,12 @@ public class WorkBuilding : MonoBehaviour
         }
     }
 
-
-
     //레시피 선택
     public void SelectRecipe(Recipe recipe)
     {
         Debug.Log("레시피 선택");
         Debug.Log($"Before Clearing: needIngredient count = {needIngredient.Count}");
-        ClearNeedIngredient();  // ClearNeedIngredient 메서드로 리스트 초기화
+        ClearNeedIngredient();  //ClearNeedIngredient 메서드로 리스트 초기화
         Debug.Log($"After Clearing: needIngredient count = {needIngredient.Count}");
 
         if (availableRecipes.Contains(recipe))
@@ -158,26 +151,23 @@ public class WorkBuilding : MonoBehaviour
         Debug.Log($"Setting recipe for: {recipe.finishedProduct.processItemName}");
 
         currentRecipe = recipe;
-        ClearNeedIngredient();  // ClearNeedIngredient 메서드로 리스트 초기화
+        ClearNeedIngredient();  //ClearNeedIngredient 메서드로 리스트 초기화
 
         foreach (var ingredientObj in recipe.ingredients)
         {
             if (ingredientObj is Ingredient<ProcessItemDataInfo> processedIngredient)
             {
-                AddToNeedIngredient(new ProcessItemIItem(processedIngredient.item));  // AddToNeedIngredient 메서드로 아이템 추가
+                AddToNeedIngredient(new ProcessItemIItem(processedIngredient.item));  //AddToNeedIngredient 메서드로 아이템 추가
             }
             else if (ingredientObj is Ingredient<CropItemDataInfo> cropIngredient)
             {
-                AddToNeedIngredient(new CropItemIItem(cropIngredient.item));  // AddToNeedIngredient 메서드로 아이템 추가
+                AddToNeedIngredient(new CropItemIItem(cropIngredient.item));  //AddToNeedIngredient 메서드로 아이템 추가
             }
         }
 
         product = new ProcessItemIItem(recipe.finishedProduct);
         productionDuration = recipe.productionTime;
         Debug.Log("Setting productionDuration to: " + recipe.productionTime);
-
-
-
     }
 
 
@@ -226,10 +216,6 @@ public void ProductImageClicked(int index)
         eventTrigger.triggers.Add(entry);
     }
 
-    
-
-
-
     //레시피 설정
     public void SetRecipe(Recipe recipe)
     {
@@ -270,7 +256,6 @@ public void ProductImageClicked(int index)
         product = new ProcessItemIItem(recipe.finishedProduct);
         productionDuration = recipe.productionTime;
         Debug.Log("Setting productionDuration to: " + recipe.productionTime);
-
     }
 
     //재료 추가
@@ -294,9 +279,7 @@ public void ProductImageClicked(int index)
         }
     }
 
-
-
-    // 드래그로 완성품 이미지를 놓았을 때 호출되는 메서드
+    //드래그로 완성품 이미지를 놓았을 때 호출되는 메서드
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("완성품 이미지 놓고 호출");
@@ -307,12 +290,10 @@ public void ProductImageClicked(int index)
         }
     }
 
-
     //생산 시작
     public void StartProduction()
     {
         Debug.Log("생산 시작");
-
 
         Debug.Log($"Before Deduction: needIngredient count = {needIngredient.Count}");
         foreach (var item in needIngredient)
@@ -320,14 +301,13 @@ public void ProductImageClicked(int index)
             Debug.Log(item.ItemName);
         }
 
-        // 현재 선택된 레시피와 필요 원재료 디버그 로그 추가
+        //현재 선택된 레시피와 필요 원재료 디버그 로그 추가
         Debug.Log($"Selected Recipe: {currentRecipe.finishedProduct.processItemName}");
         Debug.Log("Required Ingredients for this recipe:");
       
         Debug.Log("재료 충분?");
 
-
-        bool enoughIngredients = true;//////////////////
+        bool enoughIngredients = true;
         foreach (IItem requiredItem in needIngredient)
         {
             int requiredCount = needIngredient.Count(item => item.Equals(requiredItem));
@@ -339,18 +319,15 @@ public void ProductImageClicked(int index)
                 enoughIngredients = false;
                 break;
             }
-
         }
 
-        // 필요한 재료가 충분하지 않다면, 생산을 시작하지 않는다.
+        //필요한 재료가 충분하지 않다면, 생산을 시작하지 않는다.
         if (!enoughIngredients) return;
 
         HashSet<IItem> processedItems = new HashSet<IItem>();
-        // 필요한 재료를 창고에서 제거
+        //필요한 재료 창고에서 제거
         foreach (IItem requiredItem in needIngredient)
         {
-            //int requiredCount = needIngredient.Count(item => item.Equals(requiredItem));
-            //Storage.Instance.RemoveItem(requiredItem, requiredCount);
             if (!processedItems.Contains(requiredItem))
             {
                 int requiredCount = needIngredient.Count(item => item.Equals(requiredItem));
@@ -359,17 +336,13 @@ public void ProductImageClicked(int index)
             }
         }
 
-
-
         Debug.Log($"After Deduction: needIngredient count = {needIngredient.Count}");
         foreach (var item in needIngredient)
         {
             Debug.Log(item.ItemName);
         }
 
-
-
-        // 애니메이션 시작
+        //애니메이션 시작
         StartCoroutine(StartProductionAnimation());
         //이미지 숨기기
         if (finishedProductUI)
@@ -387,12 +360,10 @@ public void ProductImageClicked(int index)
         ClearNeedIngredient();
 
         if (productionCoroutine != null)
-            StopCoroutine(productionCoroutine); // 이미 실행 중인 애니메이션 코루틴이 있으면 중지
+            StopCoroutine(productionCoroutine); //이미 실행 중인 애니메이션 코루틴이 있으면 중지
 
-        productionCoroutine = StartCoroutine(StartProductionAnimation()); // 애니메이션 시작
+        productionCoroutine = StartCoroutine(StartProductionAnimation()); //애니메이션 시작
     }
-
-
 
     //생산 완료 체크
     private void CheckProduction()
@@ -411,7 +382,6 @@ public void ProductImageClicked(int index)
     {
         Debug.Log("생산 완료");
 
-
         // 완성품을 창고에 추가
         Storage.Instance.AddItem(product, 1);
 
@@ -424,7 +394,7 @@ public void ProductImageClicked(int index)
         }
 
         if (productionCoroutine != null)
-            StopCoroutine(productionCoroutine); // 애니메이션 중지
+            StopCoroutine(productionCoroutine); //애니메이션 중지
 
     }
  
@@ -436,11 +406,11 @@ public void ProductImageClicked(int index)
 
         for (int i = 0; i < blinkTimes; i++)
         {
-            // 투명하게 설정
+            //투명하게 설정
             spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
             yield return new WaitForSeconds(blinkDuration);
 
-            // 원래 색상으로 설정
+            //원래 색상으로 설정
             spriteRenderer.color = originalColor;
             yield return new WaitForSeconds(blinkDuration);
         }
@@ -450,14 +420,13 @@ public void ProductImageClicked(int index)
     IEnumerator StartProductionAnimation()
     {
         Vector3 originalScale = transform.localScale;
-        Vector3 targetScale = originalScale * 1.2f; // 1.2배 크기로 설정 (원하는 배율로 조절 가능)
+        Vector3 targetScale = originalScale * 1.2f; //1.2배 크기로 설정 
+        float duration = 0.5f;                      //애니메이션 지속 시간
 
-        float duration = 0.5f; // 애니메이션 지속 시간
-
-        while (isProducing) // 생산 중일 동안 계속 애니메이션 반복
+        while (isProducing) //생산 중일 동안 계속 애니메이션 반복
         {
             float elapsed = 0;
-            // 커지는 애니메이션
+            //커지는 애니메이션
             while (elapsed < duration)
             {
                 transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsed / duration);
@@ -467,7 +436,7 @@ public void ProductImageClicked(int index)
             transform.localScale = targetScale;
 
             elapsed = 0;
-            // 원래 크기로 돌아오는 애니메이션
+            //원래 크기로 돌아오는 애니메이션
             while (elapsed < duration)
             {
                 transform.localScale = Vector3.Lerp(targetScale, originalScale, elapsed / duration);
@@ -477,25 +446,5 @@ public void ProductImageClicked(int index)
             transform.localScale = originalScale;
         }
 
-        //float elapsed = 0;
-
-        //// 커지는 애니메이션
-        //while (elapsed < duration)
-        //{
-        //    transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsed / duration);
-        //    elapsed += Time.deltaTime;
-        //    yield return null;
-        //}
-        //transform.localScale = targetScale;
-
-        //elapsed = 0;
-        //// 원래 크기로 돌아오는 애니메이션
-        //while (elapsed < duration)
-        //{
-        //    transform.localScale = Vector3.Lerp(targetScale, originalScale, elapsed / duration);
-        //    elapsed += Time.deltaTime;
-        //    yield return null;
-        //}
-        //transform.localScale = originalScale;
     }
 }

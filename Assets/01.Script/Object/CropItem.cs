@@ -29,28 +29,29 @@ namespace JinnyCropItem
             this.IsInitialized = true;
         }
 
-
-
+        //IItem 인터페이스 구현 부분
         public string ItemName => cropItemName;
         public int ItemCost => cropItemCost;
         public Sprite ItemImage => cropItemImage;
         public string ItemId => cropItemId;
 
+        //주어진 객체가 이 구조체와 같은지 확인하는 메서드
         public override bool Equals(object obj)
         {
             return obj is CropItemDataInfo && Equals((CropItemDataInfo)obj);
         }
 
+        //다른 CropItemDataInfo 객체와 같은지 확인하기 위한 메서드. 아이템ID 기반으로 비교
         public bool Equals(CropItemDataInfo other)
         {
             return ItemId == other.ItemId;
         }
 
+        //GetHashCode 메서드 오버라이드. 아이템ID 기반으로 해시 코드 생성
         public override int GetHashCode()
         {
             return ItemId.GetHashCode();
         }
-
     }
 
     //IItem 인터페이스 정의
@@ -131,20 +132,6 @@ namespace JinnyCropItem
 
             Debug.Log("농장 생산품 리스트 크기 : " + cropItemDataInfoList.Count);
 
-
-
-            //foreach (var item in cropItemDataInfoList)
-            //{
-            //    //Debug.Log("Item Name: " + item.cropItemName + ", Image: " + item.cropItemImage);
-            //    //Debug.Log("Item ID: " + item.cropItemId);
-            //}
-
-            //Sprite[] sprites = Resources.LoadAll<Sprite>("Item");
-            //Debug.Log("Loaded " + sprites.Length + " sprites from 'Item' folder.");
-            //foreach (Sprite sprite in sprites)
-            //{
-            //    //Debug.Log("Loaded sprite name: " + sprite.name);
-            //}
         }
 
         //초기화 기능

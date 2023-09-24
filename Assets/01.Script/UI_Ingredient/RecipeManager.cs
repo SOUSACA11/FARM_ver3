@@ -36,7 +36,6 @@ public class RecipeManager : MonoBehaviour
     public CropItem cropItems;
     public ProcessItem processItems;
 
-
     private void Awake()
     {
         if (Instance == null)
@@ -49,10 +48,8 @@ public class RecipeManager : MonoBehaviour
             return;
         }
 
-  
             cropItems = FindObjectOfType<CropItem>();
             processItems = FindObjectOfType<ProcessItem>();
-        
 
     }
 
@@ -92,7 +89,6 @@ public class RecipeManager : MonoBehaviour
     private void InitializeRecipes()
     {
         Debug.Log("레시피매니저 초기화 실시 시작");
-
 
         // JinnyCropItem에서 아이템 가져오기
         CropItemDataInfo wheat = cropItems.cropItemDataInfoList.Find(item => item.cropItemId == "crop_01");  //밀

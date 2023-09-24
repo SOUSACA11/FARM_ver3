@@ -125,7 +125,7 @@ public class Storage : MonoBehaviour
     //창고 내 특정 아이템 수량 확인 기능
     public int GetItemAmount(IItem item)
     {
-        // 아이템 리스트에 있는 해당 아이템의 개수를 반환합니다.
+        //아이템 리스트에 있는 해당 아이템의 개수 반환
         if (items.TryGetValue(item, out int count))
         {
             Debug.Log($"[Storage] Current item list in storage:");
@@ -138,18 +138,18 @@ public class Storage : MonoBehaviour
         }
         else
         {
-            return 0; //아이템이 창고에 없으면 0을 반환합니다.
+            return 0; //아이템이 창고에 없으면 0 반환
         }
     }
 
-    // 작물 아이템만 가져오기
+    //작물 아이템만 가져오기
     public Dictionary<IItem, int> GetCropItems()
     {
         Debug.Log("작물");
         return items.Where(pair => pair.Key is CropItemIItem).ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 
-    // 생산품 아이템만 가져오기
+    //생산품 아이템만 가져오기
     public Dictionary<IItem, int> GetProcessItems()
     {
         Debug.Log("생산품");

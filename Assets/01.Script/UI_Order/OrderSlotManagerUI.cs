@@ -64,9 +64,7 @@ public class OrderSlotManagerUI : MonoBehaviour
     //주문서
     public void DisplayOrder()
     {
-
         //주문서 생성
-        //OrdersTable.instance.orders = orderPaper.RandomOrder(3); //아이템 3개 배정
         currentOrders = orderPaper.RandomOrder(3);
         OrdersTable.instance.orders = new List<Order>(currentOrders);
         Debug.Log("생산직후 리스트 카운트 :" + OrdersTable.instance.orders.Count);
@@ -77,6 +75,7 @@ public class OrderSlotManagerUI : MonoBehaviour
             Destroy(child.gameObject);
             //Debug.Log("기존 주문 삭제");
         }
+
         //새 주문 아이템 UI 생성
         foreach (var order in OrdersTable.instance.orders)
         {
@@ -96,8 +95,6 @@ public class OrderSlotManagerUI : MonoBehaviour
     //주문서 여러개
     public void MultipleOrder(int count)
     {
-
-
         Debug.Log(gameObject.name + "멀티플" + OrdersTable.instance.orders.Count);
         //최대 3개까지만 생성
         if (currentOrderCount >= 3)
@@ -108,41 +105,31 @@ public class OrderSlotManagerUI : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            //Debug.Log("멀티플2" + OrdersTable.orders.Count);
             GameObject orderSheet = Instantiate(orderSheetPrefab);
             orderSheet.transform.SetParent(orderListParent);
-
-
 
             OrderSlotManagerUI orderSlotManager = orderSheet.GetComponent<OrderSlotManagerUI>();
             if (orderSlotManager != null)
             {
                 orderSlotManager.TriggerRandomOrder();
 
-                //Debug.Log("멀티플3" + OrdersTable.orders.Count);
                 if (orderSlotManager.orderPaper == null || orderSlotManager.orderItemPrefab == null)
                 {
-                    //Debug.Log("멀티플4" + OrdersTable.orders.Count);
                     continue;
                 }
                 orderSlotManager.TriggerRandomOrder();
-                //Debug.Log("멀티플777" + OrdersTable.orders.Count);
             }
             //복제된 오브젝트 활성화
             ;
             orderSheet.SetActive(true);
-            //Debug.Log("멀티플888" + OrdersTable.orders.Count);
         }
 
-        //Debug.Log("멀티플5" + OrdersTable.orders.Count);
-        currentOrderCount += count;  //주문서를 생성한 후 현재 주문서 수를 증가
+        currentOrderCount += count;  //주문서를 생성한 후 현재 주문서 수 증가
 
         //현재 주문서 수가 3개 이상이면 3개로 설정
         if (currentOrderCount > 3)
             currentOrderCount = 3;
 
-        //Debug.Log("되나");
-        //Debug.Log(gameObject.name + " : 멀티플6" + OrdersTable.orders.Count);
     }
 
     //리셋 버튼
@@ -210,7 +197,7 @@ public class OrderSlotManagerUI : MonoBehaviour
                 return;
             }
 
-            // 모든 주문 아이템을 순회하며 창고의 아이템을 확인하고 차감합니다.
+            //모든 주문 아이템 순회하며 창고 아이템 확인 후 차감
             foreach (var order in orderUI.currentOrders)
             {
                 IItem requiredItem = GetItemFromID(order.ItemId);
@@ -224,10 +211,10 @@ public class OrderSlotManagerUI : MonoBehaviour
                 if (storageAmount < order.Quantity)
                 {
                     Debug.LogWarning("창고에 필요한 아이템이 부족합니다.");
-                    return;  // 창고에 필요한 아이템이 충분하지 않으면 작업 중지
+                    return;  //창고에 필요한 아이템 충분하지 않으면 작업 중지
                 }
 
-                // 필요한 아이템과 수량을 창고에서 제거
+                //필요한 아이템과 수량 창고에서 제거
                 Storage.Instance.RemoveItem(requiredItem, order.Quantity);
             }
 
@@ -245,26 +232,26 @@ public class OrderSlotManagerUI : MonoBehaviour
         }
     }
 
-    // 아이템 ID를 사용하여 IItem을 가져옴
+    //아이템 ID를 사용하여 IItem을 가져옴
     private IItem GetItemFromID(string itemId)
     {
-        // Crop items 확인
+        //Crop items 확인
         CropItemDataInfo cropItem = JinnyCropItem.CropItem.Instance.cropItemDataInfoList.FirstOrDefault(item => item.ItemId == itemId);
 
         if (cropItem.IsInitialized)
         {
             Debug.Log("Found in Crop Items: " + cropItem.ItemId);
-            return new CropItemIItem(cropItem); // CropItemIItem 객체 반환
+            return new CropItemIItem(cropItem); //CropItemIItem 객체 반환
         }
 
-        // Process items 확인
+        //Process items 확인
         ProcessItemDataInfo processItem = JinnyProcessItem.ProcessItem.Instance.processItemDataInfoList.FirstOrDefault(item => item.ItemId == itemId);
         if (processItem.IsInitialized)
         {
-            return new ProcessItemIItem(processItem); // ProcessItemIItem 객체 반환
+            return new ProcessItemIItem(processItem); //ProcessItemIItem 객체 반환
         }
 
-        // 해당 ID와 일치하는 아이템이 없음
+        //해당 ID와 일치하는 아이템 없음
         return null;
     }
 

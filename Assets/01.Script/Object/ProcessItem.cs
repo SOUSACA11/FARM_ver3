@@ -29,23 +29,23 @@ namespace JinnyProcessItem
             this.IsInitialized = true;
         }
 
-
+        //IItem 인터페이스 구현 부분
         public string ItemName => processItemName;
         public int ItemCost => processItemCost;
         public Sprite ItemImage => processItemImage;
         public string ItemId => processItemId;
 
-
+        //주어진 객체가 이 구조체와 같은지 확인하는 메서드
         public override bool Equals(object obj)
         {
             return obj is ProcessItemDataInfo && Equals((ProcessItemDataInfo)obj);
         }
-
+        //다른 ProcessItemDataInfo 객체와 같은지 확인하기 위한 메서드. 아이템ID 기반으로 비교
         public bool Equals(ProcessItemDataInfo other)
         {
             return ItemId == other.ItemId;
         }
-
+        //GetHashCode 메서드 오버라이드. 아이템ID 기반으로 해시 코드 생성
         public override int GetHashCode()
         {
             return ItemId.GetHashCode();

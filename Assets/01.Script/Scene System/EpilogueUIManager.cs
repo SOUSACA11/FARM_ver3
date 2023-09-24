@@ -5,19 +5,20 @@ using UnityEngine;
 //by.J:230830 엔딩 이미지 회전
 public class EpilogueUIManager : MonoBehaviour
 {
-    public Vector3 rotationAmount = new Vector3(0, 0, 30); // 180도 회전
-    private float rotationDuration = 3.0f; // 2초 동안 회전
-    private float pauseDuration = 0.1f; // 회전 후 1초 동안 일시정지
+    public Vector3 rotationAmount = new Vector3(0, 0, 30); //30도 회전
+    private float rotationDuration = 3.0f;                 //3초 동안 회전
+    private float pauseDuration = 0.1f;                    //회전 후 0.1초 동안 일시정지
 
     private Quaternion startRotation;
     private Quaternion endRotation;
     private float timeElapsed;
 
+    //이미지 상태 타입
     private enum State
     {
-        Rotating,
-        Pausing,
-        Returning
+        Rotating, //회전
+        Pausing,  //일시정지
+        Returning //원래 위치 돌아가기
     }
 
     private State currentState;
@@ -32,7 +33,8 @@ public class EpilogueUIManager : MonoBehaviour
     private void Update()
     {
         timeElapsed += Time.deltaTime;
-
+        
+        //현재 상태에 따른 작업 수행
         switch (currentState)
         {
             case State.Rotating:
@@ -61,6 +63,7 @@ public class EpilogueUIManager : MonoBehaviour
         }
     }
 
+    //주어진 목표 회전 각도로 이미지 회전
     private void RotateTowards(Quaternion targetRotation)
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, timeElapsed / rotationDuration);

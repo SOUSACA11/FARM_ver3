@@ -3,13 +3,7 @@ using UnityEngine;
 //by.J:230811 주문서 프로퍼티
 public class Order : MonoBehaviour
 {
-    //public string ItemName { get; set; }  //이름
-    //public string ItemId { get; set; }    //ID
-    //public Sprite ItemImage { get; set; } //이미지
-    //public int Quantity { get; set; }     //수량
-    //public int TotalCost { get; set; }    //총 비용
-
-    [SerializeField]
+    [SerializeField] //이름
     private string itemName;
     public string ItemName
     {
@@ -17,7 +11,7 @@ public class Order : MonoBehaviour
         set { itemName = value; }
     }
 
-    [SerializeField]
+    [SerializeField] //ID
     private string itemId;
     public string ItemId
     {
@@ -25,7 +19,7 @@ public class Order : MonoBehaviour
         set { itemId = value; }
     }
 
-    [SerializeField]
+    [SerializeField] //이미지
     private Sprite itemImage;
     public Sprite ItemImage
     {
@@ -33,7 +27,7 @@ public class Order : MonoBehaviour
         set { itemImage = value; }
     }
 
-    [SerializeField]
+    [SerializeField] //수량
     private int quantity;
     public int Quantity
     {
@@ -41,7 +35,7 @@ public class Order : MonoBehaviour
         set { quantity = value; }
     }
 
-    [SerializeField]
+    [SerializeField] //가격
     private int totalCost;
     public int TotalCost
     {

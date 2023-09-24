@@ -18,7 +18,6 @@ public class DragAndDropCamera : MonoBehaviour
             return;
         }
            
-
         //모바일 버전
         if (Input.touchCount > 0)
         {

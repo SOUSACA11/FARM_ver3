@@ -55,7 +55,6 @@ public class IngredientManagerUI : MonoBehaviour
         {
             AddEventTriggerToImage(productImageDisplays[i], i);
         }
-
     }
 
     void Update()
@@ -171,9 +170,8 @@ public class IngredientManagerUI : MonoBehaviour
                     productImageDisplays[i].sprite = recipesForAnimal[i].FinishedProductImage;
                 }
             }
-
-                else
-                {
+            else
+            {
                 Debug.LogError("빌딩타입 " + buildingType + " is not present in buildingRecipes dictionary.");
             }
         }
@@ -189,7 +187,7 @@ public class IngredientManagerUI : MonoBehaviour
         {
             Debug.Log("복제본 찾기 중: " + ui.name);
 
-            if (ui.name.StartsWith("finish Image(Clone)")) // 이름이 정확히 "finish image(Clone)"로 시작하는 경우만 선택
+            if (ui.name.StartsWith("finish Image(Clone)")) //이름이 정확히 "finish image(Clone)"로 시작하는 경우만 선택
             {
                 clonedIngredientUI = ui;
                 Debug.Log("선택된 복제본: " + clonedIngredientUI.name);
@@ -197,12 +195,12 @@ public class IngredientManagerUI : MonoBehaviour
             }
         }
 
-        // 만약 clonedIngredientUI가 없다면 새로 생성합니다.////////////////////
+        //clonedIngredientUI가 없다면 새로 생성
         if (clonedIngredientUI == null)
         {
             clonedIngredientUI = Instantiate(ingredientSlotPrefab.gameObject, currentClickedFinishImage);
         }
-        clonedIngredientUI.SetActive(true);//////////////////////////
+        clonedIngredientUI.SetActive(true);
 
     }
 
@@ -254,10 +252,7 @@ public class IngredientManagerUI : MonoBehaviour
             return;
         }
 
-        //string clickedRecipe02 = RecipeManager.Instance.buildingRecipes[currentBuildingType][index].recipeName;
-
         Debug.Log("클릭된 레시피" + clickedRecipe);
-
 
         DragFinishItem dragItem = productImageDisplays[index].GetComponent<DragFinishItem>();
         if (dragItem != null)
@@ -386,7 +381,6 @@ public class IngredientManagerUI : MonoBehaviour
                 productImageDisplays[i].gameObject.SetActive(true);
             }
 
-            // After creating or getting the productImageDisplay:
             DragFinishItem dragItem = productImageDisplays[i].GetComponent<DragFinishItem>();
             if (dragItem != null)
             {
@@ -456,7 +450,6 @@ public class IngredientManagerUI : MonoBehaviour
     //클릭 확인
     void CheckClick()
     {
-
         bool isOverUI = false;
 
         // PC에서 마우스 클릭을 확인
@@ -487,25 +480,21 @@ public class IngredientManagerUI : MonoBehaviour
         Debug.Log("완성품 창 원래대로");
         transform.position = finishOriginalUIPosition;
 
-
-        ////////////////////////
-        /// // 완성품 UI를 비활성화합니다.
+        //완성품 UI를 비활성화합니다.
         foreach (Image img in productImageDisplays)
         {
             img.gameObject.SetActive(false);
         }
 
-        // 다른 필요한 초기화 동작도 여기에 추가하세요.
-        // 예) 할당된 값을 초기화
         copyBuilding = null;
 
-        // clonedIngredientUI 초기화
+        //clonedIngredientUI 초기화
         if (clonedIngredientUI != null)
         {
             clonedIngredientUI.SetActive(false);
-            Destroy(clonedIngredientUI); // 클릭할 때마다 새로운 UI를 만들려면 기존의 것을 파괴해야 합니다.
+            Destroy(clonedIngredientUI); //클릭할 때마다 새로운 UI를 만들려면 기존의 것 파괴
             clonedIngredientUI = null;
-        }//////////////////////////
+        }
         productImageDisplays.Clear();
         ingredientSlots.Clear();
     }

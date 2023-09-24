@@ -10,12 +10,7 @@ public class IngredientSlot : MonoBehaviour
 
     public void SetIngredient(IItem production, int quantity)
     {
-        //ingredientImage.sprite = production.ItemImage;
-        //ingredientQuantity.text = quantity.ToString();
 
-        //Debug.Log("Setting ingredient: " + production.ItemName + " with image: " + production.ItemImage.name);
-        ////Debug.Log("Setting ingredient: " + production.ItemName());
-        ///
 
         if (ingredientImage == null)
         {

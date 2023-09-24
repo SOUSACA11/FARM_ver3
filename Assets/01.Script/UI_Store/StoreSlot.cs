@@ -138,16 +138,13 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     //드래그 시작시
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("순서 확인 : 드래그 ");
-        //Debug.Log("OnBeginDrag: " + currentBuildingData.buildingName);
-
         if (currentPrefab != null)
         {
             //건물 복제본 생성 및 초기화
             clone = Instantiate(currentPrefab);
             clone.transform.position = GetWorldPosition(eventData);
 
-            // 복제된 건물을 초기화합니다.
+            //복제된 건물 초기화
             WorkBuilding workBuilding = clone.GetComponent<WorkBuilding>();
             if (workBuilding != null)
             {
@@ -177,6 +174,7 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             //Debug.Log("슬롯에서 드래그 시작: " + gameObject.name + " 빌딩 가격: " + currentBuildingData.buildingCost);
             //Debug.Log("드래그중인 건물 현재 가격: " + JsonUtility.ToJson(currentBuildingData));
 
+            //FarmGrowth 컴포넌트 중복 방지 위한 여분 컴포넌트 제거
             var farmGrowthComponents = clone.GetComponents<FarmGrowth>();
             if (farmGrowthComponents.Length > 1)
             {
@@ -186,6 +184,7 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
             }
 
+            //WorkBuilding 컴포넌트 중복 방지 위한 여분 컴포넌트 제거
             var WorkBuildingComponents = clone.GetComponents<WorkBuilding>();
             if (WorkBuildingComponents.Length > 1)
             {
@@ -194,7 +193,6 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     Destroy(WorkBuildingComponents[i]);
                 }
             }
-
         }
     }
 
@@ -208,8 +206,6 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Vector3 mousePosition = GetWorldPosition(eventData);
             clone.transform.position = IsoGridSnap(mousePosition);
         }
-
-
     }
 
     //드래그 끝난 후
@@ -219,14 +215,16 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             WorkBuilding workBuilding = clone.GetComponent<WorkBuilding>();
 
+            //월드좌표 변환 후 그리드에 맞게 정렬
             if (clone != null)
             {
                 Vector3 mousePosition = GetWorldPosition(eventData);
                 clone.transform.position = IsoGridSnap(mousePosition);
             }
 
-            bool isSuccess = false; // 금액 차감 성공 여부 확인 변수
+            bool isSuccess = false; //금액 차감 성공 여부 확인 변수
 
+            //타입별 비용 차감
             if (currentBuildingType != BuildingType.None)
             {
                 isSuccess = MoneySystem.Instance.DeductGold(currentBuildingData.buildingCost);
@@ -242,20 +240,16 @@ public class StoreSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             if (!isSuccess)
             {
-                // 돈이 부족해서 건물을 배치할 수 없습니다. 따라서 건물을 제거하고 경고 메시지 표시
+                //돈이 부족 할 경우 건물 제거
                 Destroy(clone);
                 Debug.LogWarning("금액이 부족하여 건물을 배치할 수 없습니다.");
-                // 추가적으로 사용자에게 메시지를 표시하려면, 여기에 코드를 추가하면 됩니다.
             }
             else
             {
-                // 금액 차감에 성공했으므로, 건물 배치를 유지합니다.
+                //금액 차감에 성공 건물 배치 유지
                 clone = null;
             }
         }
-
-      
-
     }
 
     private Vector3 GetWorldPosition(PointerEventData eventData)

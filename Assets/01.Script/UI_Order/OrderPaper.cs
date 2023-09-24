@@ -1,8 +1,7 @@
-using System.Collections;
+using JinnyCropItem;
+using JinnyProcessItem;
 using System.Collections.Generic;
 using UnityEngine;
-using JinnyProcessItem;
-using JinnyCropItem;
 
 //by.J:230811 주문 관리 / 랜덤 주문서 생성 및 총 비용 계산
 public class OrderPaper : MonoBehaviour
@@ -29,7 +28,6 @@ public class OrderPaper : MonoBehaviour
             //Debug.Log("가공품 추가 완");
         }
 
-
         for (int i = 0; i < numberOfItems; i++)
         {
             int randomIndex = Random.Range(0, allItems.Count);
@@ -53,13 +51,11 @@ public class OrderPaper : MonoBehaviour
                 Debug.Log($"Order created with ItemId: {order.ItemId}");
             }
         }
+        return orders;
+    }
 
-           return orders;
-        }
-
-
-        //주문서 총 비용
-        public int TotalCost(List<Order> orders)
+    //주문서 총 비용
+    public int TotalCost(List<Order> orders)
     {
         int totalCost = 0; //총 비용 초기화
 

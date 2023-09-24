@@ -33,9 +33,6 @@ public class StoreManagerUI : MonoBehaviour
 
     List<StoreItemUI> storeItems = new List<StoreItemUI>();  //상점 아이템 객체들을 저장할 리스트
 
-    //public GameObject itemPrefab;
-    //public Transform itemParan;
-
     // *아이템 정보 관련* 
     private TabType currentTab = TabType.Building; //처음 빌딩 탭 보여주기
 
@@ -144,14 +141,12 @@ public class StoreManagerUI : MonoBehaviour
         {
             slot.gameObject.SetActive(false);
         }
-
         for (int i = start; i < end; i++)
         {
             int slotIndex = i - start;
             slots[slotIndex].SetSlotAnimal(animalList[i]);
             slots[slotIndex].gameObject.SetActive(true);
         }
-
         NextButtonDecision(animalList);
     }
 
@@ -188,12 +183,9 @@ public class StoreManagerUI : MonoBehaviour
     }
 
 
-
     private void Start() 
     {
-        //Debug.Log(image.rectTransform.position.x);
-        //Debug.Log(image.rectTransform.position.y);
-
+      
         closeButton.onClick.AddListener(CloseButtonOnClick);    //닫기 버튼 클릭
         startPosition = image.transform.position;               //시작 위치 설정
 

@@ -31,8 +31,6 @@ public class ItemDic : MonoBehaviour
             Destroy(gameObject);
         }
 
-
-
         building = gameObject.AddComponent<Building>();
         farm = gameObject.AddComponent<Farm>();
         cropItem = gameObject.AddComponent<CropItem>();
@@ -42,7 +40,6 @@ public class ItemDic : MonoBehaviour
     }
     public void Start()
     {
-
         Item.Add("건물", building.buildingDataList);
         Item.Add("농장밭", farm.farmDataList);
         Item.Add("농장 생산품", cropItem.cropItemDataInfoList);
@@ -50,6 +47,5 @@ public class ItemDic : MonoBehaviour
         Item.Add("동물", animal.animalDataList);
 
         Debug.Log("아이템 리스트 갯수: " + Item.Count);
-
     }
 }

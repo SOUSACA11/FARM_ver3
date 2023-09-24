@@ -23,6 +23,4 @@ public class ButtonBlink : MonoBehaviour
             btnImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, alphaValue);
         }
     }
-
-
 }

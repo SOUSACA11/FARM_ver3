@@ -18,8 +18,6 @@ public class StorageSlot : MonoBehaviour
         itemCountText.text = count.ToString();
         //itemNameText.text = item.ItemName[0]; // 처음 아이템의 이름을 사용
 
-
-
     }
 }
 

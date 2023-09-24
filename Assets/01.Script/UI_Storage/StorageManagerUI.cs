@@ -20,6 +20,7 @@ public class StorageManagerUI : MonoBehaviour
     public StorageSlotUI storageSlotUI;
 
     private TabType currentTab = TabType.CropItem; //처음 빌딩 탭 보여주기
+
     public enum TabType
     {
         CropItem,
@@ -30,7 +31,7 @@ public class StorageManagerUI : MonoBehaviour
     {
         Debug.Log("탭전환 작물");
         currentTab = TabType.CropItem;
-        storageSlotUI.SetCurrentTab(currentTab); // 이 줄을 추가
+        storageSlotUI.SetCurrentTab(currentTab);
         Dictionary<IItem, int> cropItems = Storage.Instance.GetCropItems();
         DisplayItems(cropItems);
     }
@@ -39,7 +40,7 @@ public class StorageManagerUI : MonoBehaviour
     {
         Debug.Log("탭전환 생산품");
         currentTab = TabType.ProcessItem;
-        storageSlotUI.SetCurrentTab(currentTab); // 이 줄을 추가
+        storageSlotUI.SetCurrentTab(currentTab);
         Dictionary<IItem, int> processItems = Storage.Instance.GetProcessItems();
         DisplayItems(processItems);
     }

@@ -17,13 +17,13 @@ public class CharaterMovement : MonoBehaviour
 
     private Vector3 currentMoveDir = Vector3.zero;
 
-    public Vector2 minBounds;  // 움직임의 최소 경계값
-    public Vector2 maxBounds;  // 움직임의 최대 경계값
+    public Vector2 minBounds;  //움직임의 최소 경계값
+    public Vector2 maxBounds;  //움직임의 최대 경계값
 
-    public GameObject frontRightObject; // 첫 번째 오브젝트
-    public GameObject backLeftObject; // 두 번째 오브젝트
+    public GameObject frontRightObject; //첫 번째 오브젝트
+    public GameObject backLeftObject;   //두 번째 오브젝트
 
-    private float animationDelay = 8f;  // 애니메이션 대기 시간 설정 (8초)
+    private float animationDelay = 8f;  //애니메이션 대기 시간 설정 (8초)
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -35,7 +35,7 @@ public class CharaterMovement : MonoBehaviour
         frontRightObject.gameObject.SetActive(true);
         backLeftObject.gameObject.SetActive(false);
 
-        // 10초 뒤에 움직임 시작
+        //10초 뒤에 움직임 시작
         StartCoroutine(StartMovementAfterDelay(10.0f));
     }
 
@@ -48,10 +48,10 @@ public class CharaterMovement : MonoBehaviour
         {
             moveDuration -= Time.deltaTime;
 
-            // 예상 위치를 계산합니다.
+            //예상 위치를 계산
             Vector3 expectedPosition = activeObject.transform.position + currentMoveDir * moveSpeed * Time.deltaTime;
 
-            // 예상 위치가 경계 내에 있는지 확인합니다.
+            //예상 위치가 경계 내에 있는지 확인
             if (expectedPosition.x >= minBounds.x && expectedPosition.x <= maxBounds.x &&
                 expectedPosition.y >= minBounds.y && expectedPosition.y <= maxBounds.y)
             {
@@ -78,10 +78,10 @@ public class CharaterMovement : MonoBehaviour
 
     IEnumerator StartMovementAfterDelay(float delay)
     {
-        // 지정된 시간만큼 대기
+        //지정된 시간만큼 대기
         yield return new WaitForSeconds(delay);
 
-        // 움직임 시작
+        //움직임 시작
         PickRandomDirection();
     }
 
@@ -120,7 +120,7 @@ public class CharaterMovement : MonoBehaviour
         moveDuration = Random.Range(moveDurationRange.x, moveDurationRange.y);
         isMoving = true;
 
-        // 오브젝트 활성화 확인 및 활성화
+        //오브젝트 활성화 확인 및 활성화
         if (!this.gameObject.activeSelf)
         {
             this.gameObject.SetActive(true);
